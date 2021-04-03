@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+      namespace: {{ .Release.Namespace }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+        namespace: {{ .Release.Namespace }}
+        version: {{ .Values.app.version }}
+    spec:
+      initContainers:
+        - name: migrations
+          image: {{ .Values.app.image }}
+          command: ['sh', '-c', 'alembic upgrade head']
+          env:
+            - name: APP_NAME
+              value: {{ .Values.app.name }}
+            - name: APP_ENVIRONMENT
+              value: {{ .Release.Namespace }}
+            - name: POD_IMAGE
+              value: {{ .Values.app.image }}
+            - name: POD_VERSION
+              value: {{ .Values.app.version }}
+            - name: POD_NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            {{ toYaml .Values.app.env | nindent 12 }}
+      containers:
+        - name: backend
+          image: {{ .Values.app.image }}
+          env:
+            - name: APP_NAME
+              value: {{ .Values.app.name }}
+            - name: APP_ENVIRONMENT
+              value: {{ .Release.Namespace }}
+            - name: POD_IMAGE
+              value: {{ .Values.app.image }}
+            - name: POD_VERSION
+              value: {{ .Values.app.version }}
+            - name: POD_NODE
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            {{ toYaml .Values.app.env | nindent 12 }}
+          ports:
+            {{ toYaml .Values.app.ports | nindent 12 }}
+
+          startupProbe:
+            httpGet:
+              port: http
+              path: /readiness
+
+          livenessProbe:
+            httpGet:
+              port: http
+              path: /liveness
+
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /readiness

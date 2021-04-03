@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.postgres.name }}
+  labels:
+    app: {{ .Values.postgres.name }}
+    namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.postgres.replicas }}
+  serviceName: {{ .Values.postgres.name }}
+  selector:
+    matchLabels:
+      app: {{ .Values.postgres.name }}
+      namespace: {{ .Release.Namespace }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.postgres.name }}
+        namespace: {{ .Release.Namespace }}
+    spec:
+      containers:
+        - name: {{ .Values.postgres.name }}
+          image: {{ .Values.postgres.image }}
+          volumeMounts:
+            - mountPath: {{ .Values.postgres.pvc.containerPath }}
+              name: {{ .Values.postgres.name }}-{{ .Release.Namespace }}
+          env:
+            {{- toYaml .Values.postgres.env | nindent 12 }}
+          ports:
+            {{- toYaml .Values.postgres.ports | nindent 12 }}
+      volumes:
+      - name: {{ .Values.postgres.name }}-{{ .Release.Namespace }}
+        persistentVolumeClaim:
+          claimName: {{ .Values.postgres.name }}-{{ .Release.Namespace }}

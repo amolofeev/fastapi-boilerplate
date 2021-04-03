@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "src"
+version = "0.1.0"
+description = ""
+authors = ["Alexander Molofeev <alexandr.nino@gmail.com>"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile="hug"
+src_paths = ["tests", "src"]
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+lines_after_imports = 2
+use_parentheses = false
+from_first = false
+sections=["FUTURE","STDLIB","THIRDPARTY","FIRSTPARTY","LOCALFOLDER"]
+default_section = "THIRDPARTY"
