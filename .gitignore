@@ -1,0 +1,5 @@
+.*
+!.dockerignore
+!.gitignore
+!.pylintrc
+__pycache__

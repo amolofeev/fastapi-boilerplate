@@ -1,0 +1,29 @@
+[MESSAGES CONTROL]
+extension-pkg-whitelist=
+    pydantic,
+
+disable=C0114,
+        R0903, # too-few-public-methods
+        C0115, # missing-class-docstring
+        C0116, # missing-function-docstring
+
+[MISCELLANEOUS]
+notes=FIXME,
+      TODO
+
+[BASIC]
+good-names=i,
+           j,
+           k,
+           e,
+           exc,
+           Run,
+           _,
+           pk,
+           sa,
+           db,
+
+[FORMAT]
+indent-after-paren=4
+indent-string='    '
+max-line-length=100
