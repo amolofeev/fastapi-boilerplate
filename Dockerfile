@@ -8,9 +8,7 @@ RUN groupadd --gid ${GID} www &&\
 
 COPY . /www
 WORKDIR /www
-RUN pip install poetry && \
-    poetry config virtualenvs.create false && \
-    poetry install -v --no-root
+RUN pip install -r requirements.txt
 
 USER www
 CMD ['echo', 'Ready to work!']
