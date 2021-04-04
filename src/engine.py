@@ -10,8 +10,11 @@ from src.settings import settings
 async def init_pg_pool() -> Engine:
     """create engine"""
     return await aiopg.sa.create_engine(
-        timeout=5,
-        dsn=settings.DB_DSN
+        dsn=settings.PG_DSN,
+        timeout=settings.PG_CONNECTION_TIMEOUT,
+        minsize=settings.PG_MIN_POOL_SIZE,
+        maxsize=settings.PG_MAX_POOL_SIZE
+
     )
 
 

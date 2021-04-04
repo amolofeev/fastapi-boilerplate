@@ -1,7 +1,7 @@
 from aiopg.sa import SAConnection
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from pydantic import BaseModel
-from starlette.responses import JSONResponse, Response
+from starlette.responses import Response
 
 from src.dependencies import pg_connection
 

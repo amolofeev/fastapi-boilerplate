@@ -6,6 +6,7 @@ disable=C0114,
         R0903, # too-few-public-methods
         C0115, # missing-class-docstring
         C0116, # missing-function-docstring
+        W0702, # No exception type(s) specified (bare-except)
 
 [MISCELLANEOUS]
 notes=FIXME,
@@ -19,9 +20,11 @@ good-names=i,
            exc,
            Run,
            _,
-           pk,
-           sa,
-           db,
+           pk, # primary key
+           sa, # sqlalchemy
+           pd, # pandas
+           df, # pandas.DataFrame
+           np, # numpy
 
 [FORMAT]
 indent-after-paren=4

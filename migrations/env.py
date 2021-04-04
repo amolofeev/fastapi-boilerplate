@@ -20,7 +20,7 @@ config = context.config
 fileConfig(config.config_file_name)
 config.set_main_option(
     "sqlalchemy.url",
-    settings.DB_DSN
+    settings.PG_DSN
 )
 # add your model's MetaData object here
 # for 'autogenerate' support
