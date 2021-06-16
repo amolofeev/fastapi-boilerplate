@@ -6,7 +6,7 @@ toml==0.10.2
 pydantic[dotenv]
 
 # web
-fastapi==0.61.2
+fastapi==0.65.2
 uvicorn==0.12.3
 python-multipart==0.0.5
 websockets==8.1
