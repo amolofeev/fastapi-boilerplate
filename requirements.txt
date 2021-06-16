@@ -9,7 +9,7 @@ pydantic[dotenv]
 fastapi==0.61.2
 uvicorn==0.12.3
 python-multipart==0.0.5
-websockets==8.1
+websockets==9.1
 
 # PostgreSQL
 aiopg==1.2.1
