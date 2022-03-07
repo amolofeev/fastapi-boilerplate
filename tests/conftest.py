@@ -11,12 +11,12 @@ from alembic.config import Config as AlembicConfig
 from fastapi.testclient import TestClient
 
 from src.app import app
-from src.dependencies import pg_pool as pg_pool_dependency
+from src.dependencies import pg_pool_dep
 from src.engine import init_pg_pool
 
 
 @pytest.fixture
-async def pg_engine(loop):  # pylint: disable=unused-argument
+async def pg_engine(event_loop):  # pylint: disable=unused-argument
     """fixture for migrations"""
     engine = await init_pg_pool()
 
@@ -41,7 +41,7 @@ async def db_connection(pg_engine: Engine) -> SAConnection:
 @pytest.fixture
 async def application(pg_engine):  # pylint: disable=W0613
     """override dependencies"""
-    app.dependency_overrides[pg_pool_dependency] = lambda: pg_engine
+    app.dependency_overrides[pg_pool_dep] = lambda: pg_engine
 
     yield app
 

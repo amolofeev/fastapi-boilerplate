@@ -23,3 +23,5 @@ services:
       - postgres
     volumes:
     - .:/www
+    environment:
+      - PG_DSN=postgresql://postgres:postgres@postgres:5432/postgres
