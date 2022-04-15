@@ -7,8 +7,8 @@ RUN groupadd --gid ${GID} www &&\
     useradd --uid ${UID} --gid www --shell /bin/bash --create-home -d /www www
 
 COPY . /www
+RUN pip install -r /www/requirements.txt
 WORKDIR /www
-RUN pip install -r requirements.txt
 
 USER www
 CMD ['echo', 'Ready to work!']
